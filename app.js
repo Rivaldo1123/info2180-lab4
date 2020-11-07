@@ -1,18 +1,18 @@
-window.onload = function () {
+window.onload = function() {
     var requests = new XMLHttpRequest();
-    var data;
-    const search = document.getElementById("search");
+    const search = document.getElementsByClassName("btn")[0];
 
-    search.addEventListener('click', function (e) {
-
-        requests.onreadystatechange = function () {
-            if (requests.readyState == 4 && requests.status == "200") {
-                data = requests.responseText;
-                alert(data);
+    search.addEventListener('click', function(e) {
+        e.preventDefault();
+        var input = document.getElementById('search-box').value;
+        requests.onreadystatechange = function() {
+            if (requests.readyState == XMLHttpRequest.DONE && requests.status == 200) {
+                var data = requests.responseText;
+                var result = document.getElementById("result");
+                result.innerHTML = "<h2>Result</h2><hr width = 100%>" + data;
             }
         }
-        requests.open('GET', 'superheroes.php', true);
+        requests.open('GET', 'superheroes.php?query=' + input, true);
         requests.send();
-        
     });
 }
